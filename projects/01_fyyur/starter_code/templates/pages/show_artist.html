@@ -5,6 +5,8 @@
 	<div class="col-sm-6">
 		<h1 class="monospace">
 			{{ artist.name }}
+            <button class="edit-button" data-id="{{ artist.id }}"><a href="{{artist.id}}/edit">&#10000;</a></button>
+            <button class="delete-button" data-id="{{ artist.id }}">&cross;</button>
 		</h1>
 		<p class="subtitle">
 			ID: {{ artist.id }}
@@ -71,6 +73,22 @@
 		{% endfor %}
 	</div>
 </section>
-
+<script>
+const deleteBtns = document.querySelectorAll('.delete-button');
+  for (let i = 0; i < deleteBtns.length; i++) {
+    const btn = deleteBtns[i];
+    btn.onclick = function(e) {
+      const artistId= e.target.dataset['id'];
+      fetch('/artists/' + artistId, {
+        method: 'DELETE'
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.response == 'success') {
+          window.location.href = data.redirecturl;
+        }
+      })
+    }
+  }
+</script>
 {% endblock %}
-
