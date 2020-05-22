@@ -212,7 +212,7 @@ GET '/categories/<int:cat_id>/questions'
 
 POST '/quizzes'
 - Get next question based on quiz format
-- Request Arguments: previous_questions array of question ids, and selected category as json format {'quiz_category':{'id':<category_id}}
+- Request Arguments: previous_questions array of question ids, and selected category as json format ```json {'quiz_category':{'id':<category_id>}} ```
 - Returns: a json object including all previous questions and the current questino to display for quiz
 - Sample: http://127.0.0.1:5000/quizzes
 ```

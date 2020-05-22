@@ -39,17 +39,17 @@ def create_app(test_config=None):
   def get_categories():
     categories = Category.query.all()
 
-    try:
-        if len(categories) == 0:
-            abort(404)
+    if len(categories) == 0:
+        abort(404)
+    
+    formatted_categories = {}
+    for cat in categories:
+        formatted_categories[getattr(cat, 'id')]= getattr(cat, 'type')
 
-        formatted_categories = [cat.format() for cat in categories]
-        return jsonify({
-            'success':True,
-            'categories': formatted_categories
-        });
-    except:
-        abort(422)
+    return jsonify({
+        'success':True,
+        'categories': formatted_categories
+    });
 
   '''
   @TODO: 
@@ -78,7 +78,9 @@ def create_app(test_config=None):
     categories = Category.query.all()
     if len(categories) == 0:
         abort(404)
-    formatted_categories = [cat.format() for cat in categories]
+    formatted_categories = {}
+    for cat in categories:
+        formatted_categories[getattr(cat, 'id')]= getattr(cat, 'type')
 
     return jsonify({
         'success':True,
@@ -207,7 +209,7 @@ def create_app(test_config=None):
         content = request.get_json()
 
         previous_questions = content['previous_questions']
-        quiz_category_id = int(content['quiz_category']['id']) + 1;
+        quiz_category_id = int(content['quiz_category']['id']);
 
         questions_by_cat = Question.query.filter_by(category=quiz_category_id)
         possible_questions = questions_by_cat.filter(Question.id.notin_(previous_questions)).all()

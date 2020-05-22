@@ -63,6 +63,7 @@ Category
 
 '''
 class Category(db.Model):  
+
   __tablename__ = 'categories'
 
   id = Column(Integer, primary_key=True)
@@ -72,4 +73,6 @@ class Category(db.Model):
     self.type = type
 
   def format(self):
-    return self.type
+    return {
+      self.id:self.type
+    }
