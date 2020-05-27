@@ -211,9 +211,13 @@ def create_app(test_config=None):
         previous_questions = content['previous_questions']
         quiz_category_id = int(content['quiz_category']['id']);
 
-        questions_by_cat = Question.query.filter_by(category=quiz_category_id)
-        possible_questions = questions_by_cat.filter(Question.id.notin_(previous_questions)).all()
-        if len(previous_questions) == len(questions_by_cat.all()):
+        if quiz_category_id == 0:
+            questions = Question.query.filter_by(category=quiz_category_id)
+        else
+            questions = Question.query
+
+        possible_questions = questions.filter(Question.id.notin_(previous_questions)).all()
+        if len(previous_questions) == len(questions.all()):
             print('game over')
             return jsonify({
                 'success': True,
