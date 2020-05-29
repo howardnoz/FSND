@@ -211,9 +211,9 @@ def create_app(test_config=None):
         previous_questions = content['previous_questions']
         quiz_category_id = int(content['quiz_category']['id']);
 
-        if quiz_category_id == 0:
+        if quiz_category_id != 0:
             questions = Question.query.filter_by(category=quiz_category_id)
-        else
+        else:
             questions = Question.query
 
         possible_questions = questions.filter(Question.id.notin_(previous_questions)).all()
