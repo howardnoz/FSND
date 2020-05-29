@@ -46,12 +46,9 @@ def drinks():
 @app.route('/drinks-detail', methods=['GET'])
 @requires_auth('get:drinks-detail')
 def drink_details():
-    try:
-        drinks = Drink.query.all()
-        long_drinks = [d.long() for d in drinks]
-        return jsonify({'success':True, 'drinks':long_drinks})
-    except Exception:
-        abort(401)
+    drinks = Drink.query.all()
+    long_drinks = [d.long() for d in drinks]
+    return jsonify({'success':True, 'drinks':long_drinks})
 
 '''
 @TODO implement endpoint
@@ -161,6 +158,7 @@ def not_found(error):
 def auth_error(AuthError):
     return jsonify({
         "success": False,
-        "error": AuthError.status_code,
+        "code": AuthError.status_code,
+        "error": AuthError.error,
     }), 401
 
